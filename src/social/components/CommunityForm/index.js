@@ -222,8 +222,9 @@ const CommunityForm = ({
     [setError, isPublic, onSubmit, edit],
   );
 
-  const disabled = !isDirty || displayName.length === 0 || categoryId === '' || submitting;
-
+  // c10 don't require a categorey
+  // const disabled = !isDirty || displayName.length === 0 || categoryId === '' || submitting;
+  const disabled = !isDirty || displayName.length === 0 || submitting;
   const [formBodyRef, formBodyElement] = useElement();
   useKeepScrollBottom(formBodyRef, [formState]);
 

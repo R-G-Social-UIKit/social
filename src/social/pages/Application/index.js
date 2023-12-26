@@ -28,7 +28,7 @@ const StyledCommunitySideMenu = styled(CommunitySideMenu)`
 `;
 
 const Community = (props) => {
-  const { defaultCommunityId } = props;
+  const { defaultCommunityId, trackSocialEvent } = props;
   const { page } = useNavigation();
 
   const communityId = page.communityId ? page.communityId : null;
@@ -39,11 +39,18 @@ const Community = (props) => {
         {page.type === PageTypes.Explore && <ExplorePage />}
 
         {page.type === PageTypes.NewsFeed && (
-          <NewsFeedPage defaultCommunityId={defaultCommunityId} />
+          <NewsFeedPage
+            defaultCommunityId={defaultCommunityId}
+            trackSocialEvent={trackSocialEvent}
+          />
         )}
 
         {page.type === PageTypes.CommunityFeed && (
-          <CommunityFeedPage communityId={communityId} isNewCommunity={page.isNewCommunity} />
+          <CommunityFeedPage
+            communityId={communityId}
+            isNewCommunity={page.isNewCommunity}
+            trackSocialEvent={trackSocialEvent}
+          />
         )}
 
         {page.type === PageTypes.CommunityEdit && (
@@ -54,7 +61,9 @@ const Community = (props) => {
           <CategoryCommunitiesPage categoryId={page.categoryId} />
         )}
 
-        {page.type === PageTypes.UserFeed && <UserFeedPage userId={page.userId} />}
+        {page.type === PageTypes.UserFeed && (
+          <UserFeedPage userId={page.userId} trackSocialEvent={trackSocialEvent}/>
+        )}
 
         {page.type === PageTypes.UserEdit && <ProfileSettings userId={page.userId} />}
       </MainLayout>

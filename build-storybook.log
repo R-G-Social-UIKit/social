@@ -1,5 +1,5 @@
 
-> rgamityui@2.15.7 storybook:build
+> rg-amity-social-ui@2.15.7 storybook:build
 > build-storybook --output-dir ./storybook-build --output-dir /var/folders/yb/pg_b64452g9gjqsmdw2gf6pm0000gn/T/chromatic--10274-P2b07ZTrP2mZ
 
 info @storybook/react v6.5.16

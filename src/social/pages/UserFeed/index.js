@@ -17,7 +17,7 @@ import { FollowersTabs } from '~/social/pages/UserFeed/Followers/constants';
 import useFollow from '~/core/hooks/useFollow';
 import { Wrapper } from './styles';
 
-const UserFeed = ({ userId, currentUserId, networkSettings }) => {
+const UserFeed = ({ userId, currentUserId, networkSettings, trackSocialEvent }) => {
   const isPrivateNetwork = utils.isPrivateNetwork(networkSettings);
 
   const [activeTab, setActiveTab] = useState(UserFeedTabs.TIMELINE);
@@ -56,6 +56,7 @@ const UserFeed = ({ userId, currentUserId, networkSettings }) => {
           targetId={userId}
           showPostCreator={isMe}
           isHiddenProfile={isHiddenProfile}
+          trackSocialEvent={trackSocialEvent}
         />
       )}
 
@@ -63,14 +64,14 @@ const UserFeed = ({ userId, currentUserId, networkSettings }) => {
         <MediaGallery targetType={PostTargetType.UserFeed} targetId={userId} />
       )}
 
-      {/* {activeTab === UserFeedTabs.FOLLOWERS && !isHiddenProfile && (
+      {activeTab === UserFeedTabs.FOLLOWERS && !isHiddenProfile && (
         <Followers
           userId={userId}
           activeTab={followActiveTab}
           setActiveTab={setFollowActiveTab}
           setUserFeedTab={setActiveTab}
         />
-      )} */}
+      )}
     </Wrapper>
   );
 };
@@ -79,6 +80,7 @@ UserFeed.propTypes = {
   userId: PropTypes.string.isRequired,
   currentUserId: PropTypes.string.isRequired,
   networkSettings: PropTypes.object.isRequired,
+  trackSocialEvent: PropTypes.func,
 };
 
 export default withSDK(UserFeed);

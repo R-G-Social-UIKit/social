@@ -35,13 +35,11 @@ const SocialSearch = ({ className, sticky = false, searchBy }) => {
     search: value,
   });
 
-  console.log("Social search:, ", searchBy);
   const handleChange = (newVal) => {
     setValue(newVal);
   };
 
   const getPagination = (activeTab) => {
-    console.log('get pagination', activeTab)
     const hasMore = activeTab === 'groups' ? hasMoreCommunities : hasMoreUsers;
     const loadMore = activeTab === 'groups' ? loadMoreCommunities : loadMoreUsers;
 

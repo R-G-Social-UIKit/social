@@ -13,7 +13,7 @@
 1. install yalc globall if you don't have it ```npm i yalc -g```
 2. build the ui kit: ```npm run build```
 2. ```yalc publish``` in rg-amity-social-uikit directory 
-3. ```yalc add RGAmitySocialui``` in adminsite repo
+3. ```yalc add @rg-npmjs-dev/rg-amity-social-ui``` in adminsite repo
 4. ```npm install``` in FE repo if this is the first time you've added it (use --legacy-peer-deps if error)
 5. Please branch from prod, and work in your own branch. 
 6. When you are done, ```yalc remove --all```  (from the adminsite folder)

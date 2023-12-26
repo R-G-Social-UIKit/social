@@ -9,9 +9,19 @@ import { useNavigation } from '~/social/providers/NavigationProvider';
 import { Wrapper } from './styles';
 
 const NewsFeed = (props) => {
-  const { defaultCommunityId } = props;
+  const { defaultCommunityId, trackSocialEvent } = props;
   const { onChangePage } = useNavigation();
 
+  // const onPostCreated = (post) => {
+  // }
+
+  const onPostEvent = (post) => {
+    if (trackSocialEvent) {
+      trackSocialEvent(post);
+    } else {
+      console.log( 'error: cannot do track post event from newsfeed');
+    }
+  }
   return (
     <Wrapper data-qa-anchor="news-feed">
       <Feed
@@ -19,6 +29,8 @@ const NewsFeed = (props) => {
         goToExplore={() => onChangePage(PageTypes.Explore)}
         defaultCommunityId={defaultCommunityId}
         showPostCreator
+        trackSocialEvent={onPostEvent}
+        // onPostCreated={onPostCreated}
       />
     </Wrapper>
   );

@@ -125,8 +125,7 @@ const UIUserInfo = ({
             >
               <PencilIcon /> <FormattedMessage id="user.editProfile" />
             </Button>
-            {/* EDD - remove follow option here
-              <>
+            <>
               {isPrivateNetwork && isFollowPending && (
                 <Button disabled={!connected} onClick={() => onFollowDecline()}>
                   <PendingIconContainer>
@@ -140,7 +139,7 @@ const UIUserInfo = ({
                   <PlusIcon /> <FormattedMessage id="user.follow" />
                 </PrimaryButton>
               )}
-            </> */}
+            </>
           </ConditionalRender>
         </ActionButtonContainer>
         <OptionMenu options={allOptions} pullRight={false} />
@@ -153,29 +152,27 @@ const UIUserInfo = ({
           <BanIcon width={14} height={14} css="margin-left: 0.265rem; margin-top: 1px;" />
         )}
       </ProfileNameWrapper>
-      {/* <CountContainer>
+      <CountContainer>
         <ClickableCount
           onClick={() => {
             setActiveTab(UserFeedTabs.FOLLOWERS);
             setTimeout(() => setFollowActiveTab(FollowersTabs.FOLLOWINGS), 250);
           }}
         >
-          {toHumanString(followingCount)}
+          {toHumanString(followingCount)} <FormattedMessage id="counter.followings" />
         </ClickableCount>
-        <FormattedMessage id="counter.followings" />
         <ClickableCount
           onClick={() => {
             setActiveTab(UserFeedTabs.FOLLOWERS);
             setTimeout(() => setFollowActiveTab(FollowersTabs.FOLLOWERS), 250);
           }}
         >
-          {toHumanString(followerCount)}
+          {toHumanString(followerCount)} <FormattedMessage id="counter.followers" />
         </ClickableCount>
-        <FormattedMessage id="counter.followers" />
-      </CountContainer> */}
+      </CountContainer>
       <Description data-qa-anchor="user-info-description">{description}</Description>
 
-      {/* {isMyProfile && pendingUsers.length > 0 && isPrivateNetwork && (
+      {isMyProfile && pendingUsers.length > 0 && isPrivateNetwork && (
         <PendingNotification
           onClick={() => {
             setActiveTab(UserFeedTabs.FOLLOWERS);
@@ -190,7 +187,7 @@ const UIUserInfo = ({
             <FormattedMessage id="follow.pendingNotification.body" />
           </NotificationBody>
         </PendingNotification>
-      )} */}
+      )}
     </Container>
   );
 };

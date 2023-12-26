@@ -27,6 +27,7 @@ const Feed = ({
   goToExplore,
   readonly = false,
   isHiddenProfile = false,
+  trackSocialEvent,
 }) => {
   const enablePostTargetPicker = targetType === PostTargetType.GlobalFeed;
   const [posts, hasMore, loadMore, loading, loadingMore] = useFeed({
@@ -63,6 +64,7 @@ const Feed = ({
               enablePostTargetPicker={enablePostTargetPicker}
               hasMoreCommunities={hasMoreCommunities}
               loadMoreCommunities={loadMoreCommunities}
+              trackSocialEvent={trackSocialEvent}
               onCreateSuccess={onPostCreated}
             />
           )}
@@ -109,6 +111,7 @@ Feed.propTypes = {
   goToExplore: PropTypes.func,
   readonly: PropTypes.bool,
   isHiddenProfile: PropTypes.bool,
+  trackSocialEvent: PropTypes.func,
   onPostCreated: PropTypes.func,
 };
 

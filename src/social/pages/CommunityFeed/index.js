@@ -25,7 +25,7 @@ import { CommunityFeedTabs } from './constants';
 import { getTabs } from './utils';
 import { DeclineBanner, Wrapper } from './styles';
 
-const CommunityFeed = ({ communityId, currentUserId, isNewCommunity }) => {
+const CommunityFeed = ({ communityId, currentUserId, isNewCommunity, trackSocialEvent }) => {
   const { community } = useCommunity(communityId);
   const { canReviewCommunityPosts } = useCommunityOneMember(
     communityId,
@@ -84,6 +84,7 @@ const CommunityFeed = ({ communityId, currentUserId, isNewCommunity }) => {
           readonly={!isJoined}
           showPostCreator={isJoined}
           feedType={FeedType.Published}
+          trackSocialEvent={trackSocialEvent}
         />
       )}
 
@@ -106,6 +107,7 @@ const CommunityFeed = ({ communityId, currentUserId, isNewCommunity }) => {
             readonly={!isJoined}
             showPostCreator={false}
             feedType={FeedType.Reviewing}
+            trackSocialEvent={trackSocialEvent}
           />
         </>
       )}
@@ -124,6 +126,7 @@ CommunityFeed.propTypes = {
   communityId: PropTypes.string.isRequired,
   currentUserId: PropTypes.string.isRequired,
   isNewCommunity: PropTypes.bool,
+  trackSocialEvent: PropTypes.func,
 };
 
 CommunityFeed.defaultProps = {

@@ -15,6 +15,8 @@ import useLiveObject from '~/core/hooks/useLiveObject';
 import useErrorNotification from '~/core/hooks/useErrorNotification';
 import { notification } from '~/core/components/Notification';
 
+import useCommunityMembers from '~/social/hooks/useCommunityMembers';
+
 import { backgroundImage as UserImage } from '~/icons/User';
 import { backgroundImage as CommunityImage } from '~/icons/Community';
 import { useNavigation } from '~/social/providers/NavigationProvider';
@@ -69,6 +71,7 @@ const PostCreatorBar = ({
   placeholder = 'What would you like to share...',
   hasMoreCommunities,
   loadMoreCommunities,
+  trackSocialEvent = () => {},
   onCreateSuccess = () => {},
   maxFiles = MAX_FILES_PER_POST,
 }) => {
@@ -83,21 +86,20 @@ const PostCreatorBar = ({
     targetId = currentUserId;
   }
 
-
   if (targetType === PostTargetType.GlobalFeed) {
     // if there's a default community, use it, rather than the global feed.
     if (defaultCommunityId) {
       // assign to default community
-        /* eslint-disable no-param-reassign */
-        targetType = PostTargetType.CommunityFeed;
-        /* eslint-disable no-param-reassign */
-        targetId = defaultCommunityId;
+      /* eslint-disable no-param-reassign */
+      targetType = PostTargetType.CommunityFeed;
+      /* eslint-disable no-param-reassign */
+      targetId = defaultCommunityId;
     } else {
       // assign to me
-        /* eslint-disable no-param-reassign */
-    targetType = PostTargetType.UserFeed;
-    /* eslint-disable no-param-reassign */
-    targetId = currentUserId;
+      /* eslint-disable no-param-reassign */
+      targetType = PostTargetType.UserFeed;
+      /* eslint-disable no-param-reassign */
+      targetId = currentUserId;
     }
   }
 
@@ -106,6 +108,28 @@ const PostCreatorBar = ({
   useEffect(() => {
     setTarget({ targetType, targetId });
   }, [targetType, targetId]);
+
+  // get all the community members
+  const {
+    members = [],
+    hasMoreMembers,
+    loadMoreMembers,
+    membersCount,
+  } = useCommunityMembers(targetId);
+
+  useEffect(() => {
+    console.log('*************************** use effect memberscount');
+    if (membersCount > 0) {
+      console.log('*************************** use effect memberscount: ', membersCount);
+      if (hasMoreMembers) {
+        console.log('*************************** use effect memberscout: hasMoreMembers = true');
+        loadMoreMembers();
+      } else {
+        // dump the members
+        console.log('*************************** use effect members: ', members);
+      }
+    }
+  }, [membersCount, members, hasMoreMembers, loadMoreMembers]);
 
   const fetcher = target.targetType === PostTargetType.UserFeed ? userFetcher : communityFetcher;
   const model = useLiveObject(fetcher(target.targetId), [target.targetId]);
@@ -125,6 +149,13 @@ const PostCreatorBar = ({
   const [uploadLoading, setUploadLoading] = useState(false);
   const [setError] = useErrorNotification();
   const [mentionees, setMentionees] = useState([]);
+
+  const backgroundImage =
+    target.targetType === PostTargetType.CommunityFeed ? CommunityImage : UserImage;
+
+  const CurrentTargetAvatar = (
+    <Avatar avatar={model.avatarCustomUrl || fileUrl} backgroundImage={backgroundImage} />
+  );
 
   const [onCreatePost, creating] = useAsyncCallback(async () => {
     const data = {};
@@ -174,7 +205,16 @@ const PostCreatorBar = ({
 
     const post = await createPost(createPostParams);
 
+    trackSocialEvent({
+      currentUserId,
+      ...createPostParams,
+      ...model,
+      backgroundImage,
+      avatar: model.avatarCustomUrl || fileUrl,
+      members,
+    });
     onCreateSuccess(post.postId);
+
     setPostText('');
     setPostImages([]);
     setPostVideos([]);
@@ -199,12 +239,6 @@ const PostCreatorBar = ({
     });
   };
 
-  const backgroundImage =
-    target.targetType === PostTargetType.CommunityFeed ? CommunityImage : UserImage;
-
-  const CurrentTargetAvatar = (
-    <Avatar avatar={model.avatarCustomUrl || fileUrl} backgroundImage={backgroundImage} />
-  );
   const isDisabled =
     isEmpty(postText, postImages, postVideos, postFiles) || uploadLoading || creating || !connected;
   const hasChanges = !isEmpty(postText, postImages, postVideos, postFiles);
@@ -398,6 +432,7 @@ PostCreatorBar.propTypes = {
   enablePostTargetPicker: PropTypes.bool,
   maxFiles: PropTypes.number,
   connected: PropTypes.bool,
+  trackSocialEvent: PropTypes.func,
   onCreateSuccess: PropTypes.func,
 };
 

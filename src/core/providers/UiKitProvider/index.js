@@ -58,15 +58,21 @@ const UiKitProvider = forwardRef(
       if (!client) {
         client = new ASCClient({ apiKey, apiEndpoint, apiRegion });
         client.on('connectionStatusChanged', (data) => {
-          onConnectionStatusChange && onConnectionStatusChange(data);
+          onConnectionStatusChange && onConnectionStatusChange({ ...data, preventReconnect });
 
           if (data.newValue === ConnectionStatus.Connected) {
             onConnected && onConnected();
           } else if (data.newValue === ConnectionStatus.Disconnected) {
-            onDisconnected && onDisconnected();
+            onDisconnected && onDisconnected({ ...data, event: 'disconnected', preventReconnect });
           }
         });
       } else if (client.currentUserId !== userId) {
+        onConnectionStatusChange({
+          ...client,
+          userId,
+          event: 'unregisterSession',
+          preventReconnect,
+        });
         client.unregisterSession();
       }
 
@@ -86,12 +92,24 @@ const UiKitProvider = forwardRef(
     useImperativeHandle(ref, () => ({
       reconnect() {
         // this should refresh the component and relaunch the useMemo, hopefully reconnecting.
+        onConnectionStatusChange({
+          ...client,
+          userId,
+          event: 'imperitive handle reconnect',
+          preventReconnect,
+        });
         setPreventReconnect(false);
       },
 
       disconnect() {
         if (client) {
-          setPreventReconnect(true);
+          actionHandlers('disconnecting. Line 95');
+          onConnectionStatusChange({
+            ...client,
+            userId,
+            event: 'imperitive handle disconnect',
+            preventReconnect,
+          });
           client.unregisterSession();
         }
       },

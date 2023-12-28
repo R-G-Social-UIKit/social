@@ -61,6 +61,24 @@ const RecentChatOnly = ({
 
   return (
     <ApplicationContainerCommentOnly>
+      {currentChannelData && (
+        <div style={{width: 200}}>
+        <Chat
+          channelId={currentChannelData.channelId}
+          shouldShowChatDetails={shouldShowChatDetails}
+          onChatDetailsClick={showChatDetails}
+        />
+        </div>
+      )}
+      {/* {shouldShowChatDetails && currentChannelData && (
+        <ChatDetails
+          channelId={currentChannelData.channelId}
+          leaveChat={leaveChat}
+          onEditChatMemberClick={onEditChatMember}
+          onMemberSelect={onMemberSelect}
+          onClose={hideChatDetails}
+        />
+      )} */}
       <RecentChatBottom
         selectedChannelId={currentChannelData?.channelId}
         membershipFilter={membershipFilter}
@@ -70,22 +88,6 @@ const RecentChatOnly = ({
           onAddNewChannel();
         }}
       />
-      {/* {currentChannelData && (
-        <Chat
-          channelId={currentChannelData.channelId}
-          shouldShowChatDetails={shouldShowChatDetails}
-          onChatDetailsClick={showChatDetails}
-        />
-      )}
-      {shouldShowChatDetails && currentChannelData && (
-        <ChatDetails
-          channelId={currentChannelData.channelId}
-          leaveChat={leaveChat}
-          onEditChatMemberClick={onEditChatMember}
-          onMemberSelect={onMemberSelect}
-          onClose={hideChatDetails}
-        />
-      )} */}
       {isChatModalOpened && <CreateChatModal onClose={() => setChatModalOpened(false)} />}
     </ApplicationContainerCommentOnly>
   );

@@ -62,12 +62,20 @@ const RecentChatOnly = ({
   return (
     <ApplicationContainerCommentOnly>
       {currentChannelData && (
-        <div style={{width: 200}}>
-        <Chat
-          channelId={currentChannelData.channelId}
-          shouldShowChatDetails={shouldShowChatDetails}
-          onChatDetailsClick={showChatDetails}
-        />
+        <div
+          style={{
+            width: 340,
+            border: '1px solid #555',
+            borderTopLeftRadius: 5,
+            borderTopRightRadius: 5,
+          }}
+        >
+          <Chat
+            size="small"
+            channelId={currentChannelData.channelId}
+            shouldShowChatDetails={shouldShowChatDetails}
+            onChatDetailsClick={showChatDetails}
+          />
         </div>
       )}
       {/* {shouldShowChatDetails && currentChannelData && (

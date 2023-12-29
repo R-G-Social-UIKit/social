@@ -22,9 +22,10 @@ export const RecentContainerSmall = styled.div`
   flex-shrink: 0;
   width: 280px;
   padding: 24px 0 5px 0;
-  background-color: lightPink;
-  border-right: 1px solid #e3e4e8;
-  height: 100px;
+  background-color: white;
+  border: 1px solid #555;
+  border-top-left-radius: 5px;
+  height: 64px;
 `;
 export const RecentHeader = styled.div`
   display: flex;

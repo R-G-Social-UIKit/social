@@ -43,6 +43,15 @@ export const MessageOptionsIcon = styled(EllipsisV).attrs({ width: 11, height: 1
 
 export const Avatar = styled(UiKitAvatar)`
   margin-right: auto;
+  ${({ size }) =>
+    size === 'small'
+      ? `
+    width: 30px;
+    height: 30px;
+`
+      : `
+    width: 40px;
+`}
 `;
 
 export const MessageReservedRow = styled.div`
@@ -57,12 +66,26 @@ export const MessageWrapper = styled.div`
 `;
 
 export const MessageContainer = styled.div`
-  min-width: 265px;
+${({ size }) =>
+    size === 'small'
+      ? `
+  min-width: 180px;
+`
+      : `
+  min-width: 350px;
+`}
 `;
 
 export const AvatarWrapper = styled.div`
-  width: 52px;
   flex-shrink: 0;
+  ${({ size }) =>
+    size === 'small'
+      ? `
+      width: 36px;
+`
+      : `
+      width: 52px;
+`}
 `;
 
 export const UserName = styled.div`

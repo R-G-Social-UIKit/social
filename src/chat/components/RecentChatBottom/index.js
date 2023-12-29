@@ -18,7 +18,10 @@ const RecentChatBottom = ({ onChannelSelect, onAddNewChannelClick, selectedChann
   const [channels, hasMore, loadMore] = useChannelsList();
   const [showFull, setShowFull] = useState(false);
   return (
-    <RecentContainerSmall onClick={() => setShowFull((prev) => !prev)} style={showFull ? {height: '100%'} : {}}>
+    <RecentContainerSmall
+      onClick={() => setShowFull((prev) => !prev)}
+      style={showFull ? { height: '100%' } : {}}
+    >
       <RecentHeader>
         <RecentHeaderLabel>
           <FormattedMessage id="chat.chats" />

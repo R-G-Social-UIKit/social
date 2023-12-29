@@ -11,7 +11,7 @@ import { ChannelContainer } from './styles';
 
 const channelRepo = new ChannelRepository();
 
-const Chat = ({ channelId, onChatDetailsClick, shouldShowChatDetails }) => {
+const Chat = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size }) => {
   useEffect(() => {
     const channelLiveObject = channelRepo.joinChannel({ channelId });
 
@@ -51,7 +51,7 @@ const Chat = ({ channelId, onChatDetailsClick, shouldShowChatDetails }) => {
         shouldShowChatDetails={shouldShowChatDetails}
         onChatDetailsClick={onChatDetailsClick}
       />
-      <MessageList channelId={channelId} />
+      <MessageList channelId={channelId} size={size} />
       <MessageComposeBar onSubmit={sendMessage} />
     </ChannelContainer>
   );

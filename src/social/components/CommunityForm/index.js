@@ -140,26 +140,6 @@ const CommunityForm = ({
     }
   }, [loading, community, categories]);
 
-  // const options = categories.map((category) => ({
-  //   name: category.name,
-  //   value: category.categoryId,
-  // }));
-  // console.log('loading', loading, 'get categories step 1', categories, 'and options: ', options);
-
-  // const [defaultCategoryId, setDefaultCategoryId] = useState(null);
-  // useEffect({
-  //   if (categories.length > 0) {
-  //     let id = categories[0].categoryId;
-  //     categories.forEach(c => {
-  //       if (c.name === 'Feed') {
-  //         console.log('found feed');
-  //         id = c.categoryId;
-  //       }
-  //     })
-  //     setDefaultCategoryId(id);
-  //   }
-  // }, [categories]);
-
   const userIds = watch('userIds', []);
   const avatarFileId = watch('avatarFileId', null);
 

@@ -56,6 +56,7 @@ export const Header = styled.div`
   ${({ theme }) => theme.typography.title};
   display: flex;
   align-items: center;
+  color: #333;
 `;
 
 export const Content = styled.div`

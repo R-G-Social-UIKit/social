@@ -32,6 +32,7 @@ const UserHeaderTitle = styled.div`
   display: flex;
   min-width: 0;
   align-items: center;
+  color: #333;
 
   > div {
     text-overflow: ellipsis;

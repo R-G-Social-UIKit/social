@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 
@@ -15,6 +15,7 @@ import { Selector, UserSelectorInput } from './styles';
 const UserSelector = ({
   value: userIds = [],
   onChange = () => {},
+  onSelectedUsers = () => {},
   parentContainer = null,
   currentUserId,
 }) => {
@@ -22,6 +23,7 @@ const UserSelector = ({
   const [query, setQuery] = useState('');
   const [queriedUsers = []] = useUserQuery(query);
   const { formatMessage } = useIntl();
+  const { selectedUserData, setSelectedUserData } = useState([]);
 
   const options = queriedUsers
     .filter(
@@ -36,7 +38,20 @@ const UserSelector = ({
   const selectedUsers = userIds.map((userId) => ({
     name: (queriedUsers.find((user) => user.userId === userId) ?? {}).displayName,
     value: userId,
+    avatar: (queriedUsers.find((user) => user.userId === userId) ?? {}).avatarCustomUrl,
   }));
+
+  useEffect(() => {
+    // console.log(
+    //   'queried users and Ids',
+    //   queriedUsers,
+    //   'user ids',
+    //   userIds,
+    //   'selected users',
+    //   selectedUsers,
+    // );
+    onSelectedUsers(selectedUsers);
+  }, [onSelectedUsers, queriedUsers, selectedUsers, userIds]);
 
   const close = () => {
     setIsOpen(false);

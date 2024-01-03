@@ -69,10 +69,10 @@ export const MessageContainer = styled.div`
 ${({ size }) =>
     size === 'small'
       ? `
-  min-width: 180px;
+  min-width: 195px;
 `
       : `
-  min-width: 350px;
+  min-width: 25vw;
 `}
 `;
 
@@ -112,12 +112,13 @@ export const GeneralMessageBody = styled(CommonMessageBody)`
     isIncoming
       ? `
       background: ${theme.palette.neutral.shade4};
-      border-radius: 0px 6px 6px 6px;
+      color: #fff;
+      border-radius: 0px 14px 14px 14px;
     `
       : `
-      background: ${theme.palette.primary.main};
+      background: #9a9dab;
       color: #fff;
-      border-radius: 6px 0px 6px 6px;
+      border-radius: 14px 0px 14px 14px;
   `}
 `;
 

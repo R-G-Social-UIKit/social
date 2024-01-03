@@ -20,9 +20,10 @@ export const RecentHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  margin-bottom: 17px;
+  padding-bottom: 8px;
   padding-left: 20px;
   padding-right: 16px;
+  border-bottom: 1px solid #ddd;
 `;
 
 export const RecentHeaderLabel = styled.span`

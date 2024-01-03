@@ -129,7 +129,7 @@
   "UserProfileForm.requiredDisplayName": "Display name is required",
   "UserProfileForm.requiredDescription": "Enter something about yourself",
 
-  "UserSelector.placeholder": "Select user...",
+  "UserSelector.placeholder": "Select member. Begin typing their name...",
 
   "report.reportUser": "Report user",
   "report.unreportUser": "Unreport user",
@@ -342,11 +342,11 @@
   "pollComposer.okText": "OK",
 
   "select.chatType.item": "{answerType} type",
-  "chatComposer.label.channelId": "Channel ID",
+  "chatComposer.label.channelId": "Chat Name",
   "chatComposer.label.displayName": "Display Name",
   "chatComposer.label.type": "Channel Type",
   "chatComposer.addUsers": "Add users",
   "chat_modal.title": "Create chat",
   "chat_composer.placeholder.displayName": "Optional display name",
-  "chat_composer.placeholder.channelId": "Optional channel ID here"
+  "chat_composer.placeholder.channelId": "Optional chat name here..."
 }

@@ -45,8 +45,6 @@ const decorator = (Story, { globals: { [GLOBAL_NAME]: val } }) => {
 
   const ref = useRef();
 
-  console.log('-------------------', val);
-
   if (ref?.current) {
     if (val === 'reconnect') ref.current.reconnect();
     else if (val === 'disconnect') ref.current.disconnect();

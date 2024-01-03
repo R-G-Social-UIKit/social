@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { FormattedMessage } from 'react-intl';
 
@@ -14,9 +14,29 @@ import {
   InfiniteScrollContainer,
 } from './styles';
 
-const RecentChatBottom = ({ onChannelSelect, onAddNewChannelClick, selectedChannelId }) => {
+const RecentChatBottom = ({
+  onChannelSelect,
+  onAddNewChannelClick,
+  selectedChannelId,
+  setUnreadChats = () => {},
+}) => {
   const [channels, hasMore, loadMore] = useChannelsList();
   const [showFull, setShowFull] = useState(false);
+  const [unreads, setUnreads] = useState(-1);
+
+  useEffect(() => {
+    if (channels && channels.length > 0) {
+      let unread = 0;
+      console.log('show channels data: ', channels);
+      channels.forEach(c => {
+        unread += c.unreadCount;
+      });
+      if (unread !== unreads) {
+        setUnreadChats(unread); // pass back to the parent.
+        setUnreads(unread);
+      }
+    }
+  }, [channels]);
   return (
     <RecentContainerSmall
       onClick={() => setShowFull((prev) => !prev)}

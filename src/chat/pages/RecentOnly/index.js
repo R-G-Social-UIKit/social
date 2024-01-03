@@ -19,6 +19,7 @@ const RecentChatOnly = ({
   onChannelSelect,
   onAddNewChannel,
   onEditChatMember,
+  setUnreadChats = () => {},
 }) => {
   const { formatMessage } = useIntl();
   const [currentChannelData, setCurrentChannelData] = useState(null);
@@ -59,6 +60,10 @@ const RecentChatOnly = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultChannelId]);
 
+  const closeChat = () => {
+    setCurrentChannelData(null);
+  };
+
   return (
     <ApplicationContainerCommentOnly>
       {currentChannelData && (
@@ -68,12 +73,14 @@ const RecentChatOnly = ({
             border: '1px solid #555',
             borderTopLeftRadius: 5,
             borderTopRightRadius: 5,
+            marginRight: 8
           }}
         >
           <Chat
             size="small"
             channelId={currentChannelData.channelId}
             shouldShowChatDetails={shouldShowChatDetails}
+            closeChat={closeChat}
             onChatDetailsClick={showChatDetails}
           />
         </div>
@@ -90,6 +97,7 @@ const RecentChatOnly = ({
       <RecentChatBottom
         selectedChannelId={currentChannelData?.channelId}
         membershipFilter={membershipFilter}
+        setUnreadChats={setUnreadChats}
         onChannelSelect={handleChannelSelect}
         onAddNewChannelClick={() => {
           openChatModal();

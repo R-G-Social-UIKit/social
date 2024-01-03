@@ -31,7 +31,7 @@ import {
 } from './styles';
 
 const communityCoverPlaceholder =
-  'https://c10amity.s3.us-west-2.amazonaws.com/images/large_group.png';
+  'https://realm-assets-prod.s3.amazonaws.com/2023_social/large_group.png';
 
 const UICommunityInfo = ({
   communityId,

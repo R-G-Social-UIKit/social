@@ -20,4 +20,6 @@ export const UserSelectorInput = styled.input`
   outline: none;
   border: none;
   width: 100%;
+  line-height: 24px;
+  padding-left: 8px;
 `;

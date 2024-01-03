@@ -10,6 +10,7 @@ export const ChatDetailsContainer = styled.div`
   height: 100%;
   padding-top: 24px;
   border-left: 1px solid #e3e4e8;
+  background: #eaeaf9;
 `;
 
 export const ChatDetailsHeader = styled.div`

@@ -43,6 +43,15 @@ export const MessageOptionsIcon = styled(EllipsisV).attrs({ width: 11, height: 1
 
 export const Avatar = styled(UiKitAvatar)`
   margin-right: auto;
+  ${({ size }) =>
+    size === 'small'
+      ? `
+    width: 30px;
+    height: 30px;
+`
+      : `
+    width: 40px;
+`}
 `;
 
 export const MessageReservedRow = styled.div`
@@ -57,12 +66,26 @@ export const MessageWrapper = styled.div`
 `;
 
 export const MessageContainer = styled.div`
-  min-width: 265px;
+${({ size }) =>
+    size === 'small'
+      ? `
+  min-width: 195px;
+`
+      : `
+  min-width: 25vw;
+`}
 `;
 
 export const AvatarWrapper = styled.div`
-  width: 52px;
   flex-shrink: 0;
+  ${({ size }) =>
+    size === 'small'
+      ? `
+      width: 36px;
+`
+      : `
+      width: 52px;
+`}
 `;
 
 export const UserName = styled.div`
@@ -89,12 +112,13 @@ export const GeneralMessageBody = styled(CommonMessageBody)`
     isIncoming
       ? `
       background: ${theme.palette.neutral.shade4};
-      border-radius: 0px 6px 6px 6px;
+      color: #fff;
+      border-radius: 0px 14px 14px 14px;
     `
       : `
-      background: ${theme.palette.primary.main};
+      background: #9a9dab;
       color: #fff;
-      border-radius: 6px 0px 6px 6px;
+      border-radius: 14px 0px 14px 14px;
   `}
 `;
 

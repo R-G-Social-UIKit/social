@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useForm, Controller } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -37,6 +37,9 @@ const FormBlock = ({ children }) => (
 const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) => {
   const { formatMessage } = useIntl();
 
+  const [autoName, setAutoName] = useState(undefined);
+  const [autoAvatar, setAutoAvatar] = useState(undefined);
+
   const defaultValues = {
     channelId: '',
     type: ChannelType.Live,
@@ -68,13 +71,34 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
       tags: data?.tags,
     };
 
-    await onSubmit(payload);
+    await onSubmit(payload, autoName);
   });
 
   const disabled = !isDirty || userIds.length === 0 || submitting;
 
   const [formBodyRef, formBodyElement] = useElement();
 
+  const onSelectedUsers = (selectedUsers) => {
+    let name = '';
+    let avatar;
+    if (selectedUsers && selectedUsers.length > 0) {
+      if (selectedUsers.length > 1) {
+        // then a group
+        selectedUsers.forEach((user) => {
+          if (user.name) {
+            name = `${name ? '+' : ''}${user.name}`;
+            avatar = avatar || user.avatar; // just use the first avatar;
+          }
+        });
+      } else {
+        name = selectedUsers[0].name || '';
+        avatar = selectedUsers[0].avatar;
+      }
+    }
+    console.log('set auto name', name);
+    setAutoName(name || 'name not available');
+    setAutoAvatar(avatar);
+  };
   return (
     <ChatComposerContainer>
       <Form className={className} onSubmit={handleSubmit(validateAndSubmit)}>
@@ -96,7 +120,8 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
               <ErrorMessage errors={errors} name="channelId" />
             </Field>
 
-            <Field>
+            {/* type will be default... don't allow users to change it or see it */}
+            {/* <Field>
               <LabelWrapper>
                 <LabelContainer>
                   <Label>
@@ -115,9 +140,10 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
                   defaultValue=""
                 />
               </ControllerContainer>
-            </Field>
+            </Field> */}
 
-            <Field>
+            {/* don't allow users to change display name or see it */}
+            {/* <Field>
               <LabelWrapper>
                 <LabelContainer>
                   <Label>
@@ -131,7 +157,7 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
                 data-qa-anchor="chat-composer-display-name-input"
               />
               <ErrorMessage errors={errors} name="displayName" />
-            </Field>
+            </Field> */}
 
             <Field>
               <Controller
@@ -154,6 +180,7 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
                   <UserSelector
                     parentContainer={formBodyElement}
                     {...rest}
+                    onSelectedUsers={onSelectedUsers}
                     data-qa-anchor="chat-composer-select-user-input"
                   />
                 )}
@@ -174,7 +201,7 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
             <FormattedMessage id="cancel" />
           </Button>
           <SubmitButton data-qa-anchor="chat-composer-submit-button" disabled={disabled}>
-            <FormattedMessage id="post" />
+            <FormattedMessage id="create" />
           </SubmitButton>
         </Footer>
       </Form>

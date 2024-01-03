@@ -34,12 +34,20 @@ export const Title = styled.div`
   margin-left: 8px;
 `;
 
+export const UnreadCountNumber = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  font-family: serif;
+`;
+
 export const UnreadCount = styled.div`
   flex-shrink: 0;
-  height: 20px;
+  height: 12px;
+  width: 12px;
   padding: 1px 6px;
   font-size: 13px;
   color: #fff;
-  background: #f9563a;
-  border-radius: 20px;
+  background: #ee3010;
+  border-radius: 50%;
 `;

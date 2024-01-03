@@ -16,15 +16,22 @@ import {
   ChannelInfo,
   ChannelName,
   MemberCount,
+  HeaderCloseIcon,
 } from './styles';
 
-const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails }) => {
+const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size, closeChat }) => {
   const channel = useLiveObject(() => ChannelRepository.getChannel(channelId), [channelId]);
   const { chatName, chatAvatar } = useChatInfo({ channel });
 
+  const onClose = () => {
+    if (closeChat) {
+      closeChat(channelId);
+    }
+  };
+
   return (
-    <ChatHeaderContainer data-qa-anchor="chat-header">
-      <Channel>
+    <ChatHeaderContainer data-qa-anchor="chat-header" size={size}>
+      <Channel size={size}>
         <UserAvatar
           avatarUrl={chatAvatar}
           defaultImage={channel.memberCount > 2 ? communityBackgroundImage : userBackgroundImage}
@@ -38,7 +45,8 @@ const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails }) =>
           </MemberCount>
         </ChannelInfo>
       </Channel>
-      {!shouldShowChatDetails && <DetailsIcon onClick={onChatDetailsClick} />}
+      {!shouldShowChatDetails && size !== 'small' && <DetailsIcon onClick={onChatDetailsClick} />}
+      {size === 'small' && <HeaderCloseIcon onClick={onClose} />}
     </ChatHeaderContainer>
   );
 };

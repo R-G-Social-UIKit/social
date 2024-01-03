@@ -6,11 +6,14 @@ import Modal from '~/core/components/Modal';
 import ChatComposer from '~/chat/components/Chat/ChatComposer';
 import promisify from '~/helpers/promisify';
 import { confirm } from '~/core/components/Confirm';
+import { useSDK } from '~/core/hocs/withSDK';
 
-const CreateChatModal = ({ onClose }) => {
+const CreateChatModal = ({ onClose, listOfChats, user }) => {
   const { formatMessage } = useIntl();
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (data, autoName) => {
+    console.log('create chat with:', { ...data, autoName });
+    const { currentUserId, client } = useSDK();
     await promisify(ChannelRepository.createChannel(data));
     onClose();
   };

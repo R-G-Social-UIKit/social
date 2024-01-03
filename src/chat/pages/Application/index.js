@@ -76,6 +76,7 @@ const ChatApplication = ({
           onChatDetailsClick={showChatDetails}
         />
       )}
+      {/* List the chats here... */}
       {shouldShowChatDetails && currentChannelData && (
         <ChatDetails
           channelId={currentChannelData.channelId}

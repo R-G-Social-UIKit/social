@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import customizableComponent from '~/core/hocs/customization';
 import { backgroundImage as userBackgroundImage } from '~/icons/User';
 import { backgroundImage as communityBackgroundImage } from '~/icons/Community';
 import useChatInfo from '~/chat/hooks/useChatInfo';
+import useChannelMembers from '~/chat/hooks/useChannelMembers';
 
-import { ChatItemLeft, Title, Avatar, ChatItemContainer, UnreadCount } from './styles';
+import {
+  ChatItemLeft,
+  Title,
+  Avatar,
+  ChatItemContainer,
+  UnreadCount,
+  UnreadCountNumber,
+} from './styles';
 
 function getNormalizedUnreadCount(channelUnreadCount) {
   // Within this range the unread counter will show an actuall number
@@ -25,6 +33,23 @@ function getNormalizedUnreadCount(channelUnreadCount) {
 
 const ChatItem = ({ channel, isSelected, onSelect }) => {
   const { chatName, chatAvatar } = useChatInfo({ channel });
+
+  // get all the chat (channel) members
+  // const [members, hasMore, loadMore] = useChannelMembers(chatName, channel.memberCount);
+  // console.log('chat name', chatName);
+  // useEffect(() => {
+  //   console.log('*************************** use effect chat members');
+  //   if (members  && members.length > 0) {
+  //     console.log('*************************** use effect chat memberscount: ', members.length);
+  //     if (hasMore) {
+  //       console.log( '*************************** use effect chat memberscout: hasMoreMembers = true');
+  //       loadMore();
+  //     } else {
+  //       // dump the members
+  //       console.log('*************************** use effect chat members: ', members);
+  //     }
+  //   }
+  // }, [members, hasMore, loadMore]);
 
   const handleChatItemClick = (e) => {
     e.stopPropagation();
@@ -48,7 +73,10 @@ const ChatItem = ({ channel, isSelected, onSelect }) => {
         <Title>{chatName}</Title>
       </ChatItemLeft>
       {normalizedUnreadCount && (
-        <UnreadCount data-qa-anchor="chat-item-unread-count">{normalizedUnreadCount}</UnreadCount>
+        <>
+        <UnreadCountNumber>({normalizedUnreadCount})</UnreadCountNumber>
+        <UnreadCount data-qa-anchor="chat-item-unread-count" />
+        </>
       )}
     </ChatItemContainer>
   );

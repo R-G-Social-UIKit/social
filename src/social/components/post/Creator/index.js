@@ -118,15 +118,12 @@ const PostCreatorBar = ({
   } = useCommunityMembers(targetId);
 
   useEffect(() => {
-    console.log('*************************** use effect memberscount');
     if (membersCount > 0) {
-      console.log('*************************** use effect memberscount: ', membersCount);
       if (hasMoreMembers) {
-        console.log('*************************** use effect memberscout: hasMoreMembers = true');
         loadMoreMembers();
       } else {
         // dump the members
-        console.log('*************************** use effect members: ', members);
+        // console.log('*************************** use effect members: ', members);
       }
     }
   }, [membersCount, members, hasMoreMembers, loadMoreMembers]);

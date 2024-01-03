@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { FormattedMessage } from 'react-intl';
 
@@ -16,6 +16,12 @@ import {
 
 const RecentChat = ({ onChannelSelect, onAddNewChannelClick, selectedChannelId }) => {
   const [channels, hasMore, loadMore] = useChannelsList();
+
+  useEffect(() => {
+    if (!selectedChannelId && channels && channels.length > 0) {
+      onChannelSelect(channels[0])
+    }
+  }, [channels, selectedChannelId]);
 
   return (
     <RecentContainer>
@@ -42,7 +48,7 @@ const RecentChat = ({ onChannelSelect, onAddNewChannelClick, selectedChannelId }
           loader={hasMore && <span key={0}>Loading...</span>}
         >
           {Array.isArray(channels) &&
-            channels.map((channel) => (
+            channels.map((channel, index) => (
               <ChatItem
                 key={channel.channelId}
                 channel={channel}

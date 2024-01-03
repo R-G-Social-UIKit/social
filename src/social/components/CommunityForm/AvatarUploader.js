@@ -9,7 +9,7 @@ import UploaderImage from '~/core/components/Uploaders/Image';
 import CameraIcon from '~/icons/Camera';
 
 const communityCoverPlaceholder =
-  'https://c10amity.s3.us-west-2.amazonaws.com/images/upload_images_background.png';
+  'https://realm-assets-prod.s3.amazonaws.com/2023_social/upload_images_background.png';
 
 const StyledCameraIcon = styled(CameraIcon)`
   z-index: 3;

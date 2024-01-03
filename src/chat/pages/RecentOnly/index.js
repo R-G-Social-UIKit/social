@@ -19,6 +19,7 @@ const RecentChatOnly = ({
   onChannelSelect,
   onAddNewChannel,
   onEditChatMember,
+  setUnreadChats = () => {},
 }) => {
   const { formatMessage } = useIntl();
   const [currentChannelData, setCurrentChannelData] = useState(null);
@@ -59,25 +60,32 @@ const RecentChatOnly = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultChannelId]);
 
+  const closeChat = () => {
+    setCurrentChannelData(null);
+  };
+
   return (
     <ApplicationContainerCommentOnly>
-      <RecentChatBottom
-        selectedChannelId={currentChannelData?.channelId}
-        membershipFilter={membershipFilter}
-        onChannelSelect={handleChannelSelect}
-        onAddNewChannelClick={() => {
-          openChatModal();
-          onAddNewChannel();
-        }}
-      />
-      {/* {currentChannelData && (
-        <Chat
-          channelId={currentChannelData.channelId}
-          shouldShowChatDetails={shouldShowChatDetails}
-          onChatDetailsClick={showChatDetails}
-        />
+      {currentChannelData && (
+        <div
+          style={{
+            width: 340,
+            border: '1px solid #555',
+            borderTopLeftRadius: 5,
+            borderTopRightRadius: 5,
+            marginRight: 8
+          }}
+        >
+          <Chat
+            size="small"
+            channelId={currentChannelData.channelId}
+            shouldShowChatDetails={shouldShowChatDetails}
+            closeChat={closeChat}
+            onChatDetailsClick={showChatDetails}
+          />
+        </div>
       )}
-      {shouldShowChatDetails && currentChannelData && (
+      {/* {shouldShowChatDetails && currentChannelData && (
         <ChatDetails
           channelId={currentChannelData.channelId}
           leaveChat={leaveChat}
@@ -86,6 +94,16 @@ const RecentChatOnly = ({
           onClose={hideChatDetails}
         />
       )} */}
+      <RecentChatBottom
+        selectedChannelId={currentChannelData?.channelId}
+        membershipFilter={membershipFilter}
+        setUnreadChats={setUnreadChats}
+        onChannelSelect={handleChannelSelect}
+        onAddNewChannelClick={() => {
+          openChatModal();
+          onAddNewChannel();
+        }}
+      />
       {isChatModalOpened && <CreateChatModal onClose={() => setChatModalOpened(false)} />}
     </ApplicationContainerCommentOnly>
   );

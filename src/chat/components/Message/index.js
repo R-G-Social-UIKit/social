@@ -46,6 +46,7 @@ const Message = ({
   isConsequent,
   userDisplayName,
   containerRef,
+  size
 }) => {
   const shouldShowUserName = isIncoming && !isConsequent && userDisplayName;
   const isSupportedMessageType = [MessageType.Text, MessageType.Custom].includes(type);
@@ -59,10 +60,12 @@ const Message = ({
     <MessageReservedRow isIncoming={isIncoming}>
       <MessageWrapper>
         {isIncoming && (
-          <AvatarWrapper>{!isConsequent && <Avatar {...getAvatarProps()} />}</AvatarWrapper>
+          <AvatarWrapper size={size}>
+            {!isConsequent && <Avatar {...getAvatarProps()} size={size} />}
+          </AvatarWrapper>
         )}
 
-        <MessageContainer data-qa-anchor="message">
+        <MessageContainer data-qa-anchor="message" size={size}>
           {shouldShowUserName && <UserName>{userDisplayName}</UserName>}
           <MessageBody
             type={type}

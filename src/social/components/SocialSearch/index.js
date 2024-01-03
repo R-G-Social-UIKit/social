@@ -74,7 +74,6 @@ const SocialSearch = ({ className, sticky = false, searchBy }) => {
 
   const items = useMemo(() => {
     return Object.keys(allItems).reduce((acc, key) => {
-      console.log('search items', acc, key, acc);
       if (searchBy.includes(key)) {
         acc[key] = allItems[key];
       }

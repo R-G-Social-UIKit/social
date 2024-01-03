@@ -10,7 +10,7 @@ import useMessagesList from '~/chat/hooks/useMessagesList';
 
 import { InfiniteScrollContainer, MessageListContainer } from './styles';
 
-const MessageList = ({ client, channelId }) => {
+const MessageList = ({ client, channelId, size }) => {
   const containerRef = useRef();
   const [messages, hasMore, loadMore] = useMessagesList(channelId);
 
@@ -63,6 +63,7 @@ const MessageList = ({ client, channelId }) => {
                 isConsequent={isConsequent}
                 isIncoming={isIncoming}
                 containerRef={containerRef}
+                size={size}
               />
             );
           })}

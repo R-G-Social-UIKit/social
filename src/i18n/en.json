@@ -162,7 +162,7 @@
   "message.unsupportedFormat": "Unsupported message format",
   "message.saveOptionsError": "There was an error processing your request",
 
-  "MessageComposeBar.placeholder": "Type your message...hellow word",
+  "MessageComposeBar.placeholder": "Your message...",
 
   "RecentChat.chats": "Chats",
 

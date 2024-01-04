@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MessageRepository, ChannelRepository } from '@amityco/js-sdk';
 
 import MessageList from '~/chat/components/MessageList';
@@ -11,30 +11,63 @@ import { ChannelContainer } from './styles';
 
 const channelRepo = new ChannelRepository();
 
-const Chat = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size, closeChat }) => {
+const Chat = ({
+  channelId,
+  onChatDetailsClick,
+  shouldShowChatDetails,
+  size,
+  closeChat,
+  trackChatEvent,
+}) => {
+
+  const [channel, setChannel] = useState(null);
+  const [chatMembers, setChatMembers] = useState([]);
+
   useEffect(() => {
-    const channelLiveObject = channelRepo.joinChannel({ channelId });
+    console.log('use effect: channelLiveObject');
+    // const channelLiveObject = channelRepo.joinChannel({ channelId });
 
-    // TODO call startReading once on join, everytime a new message is received and a message list is scrolled to very bottom
-    if (channelLiveObject.model?.membership) {
-      channelLiveObject.model.membership.startReading();
-    }
+    // // TODO call startReading once on join, everytime a new message is received and a message list is scrolled to very bottom
+    // if (channelLiveObject.model?.membership) {
+    //   channelLiveObject.model.membership.startReading();
+    // }
 
-    channelLiveObject.on('dataUpdated', (channelModel) => {
-      if (!channelModel?.membership) {
-        return;
-      }
+    // channelLiveObject.on('dataUpdated', (channelModel) => {
+    //   if (!channelModel?.membership) {
+    //     return;
+    //   }
 
-      channelModel.membership.startReading();
-    });
+    //   channelModel.membership.startReading();
+    // });
 
-    return () => {
-      if (channelLiveObject?.model?.membership) {
-        channelLiveObject.model.membership.stopReading();
-      }
+    // return () => {
+    //   if (channelLiveObject?.model?.membership) {
+    //     channelLiveObject.model.membership.stopReading();
+    //     setChannel(channelLiveObject.model);
+    //   }
 
-      channelLiveObject.dispose();
-    };
+    //   channelLiveObject.dispose();
+
+      // let members;
+
+      // const liveCollection = ChannelRepository.queryMembers({
+      //   channelId,
+      // //   memberships: [MemberFilter.Member],
+      //  //  roles: ['role1'],
+      //   // search: 'asd',
+      // });
+
+      // liveCollection.on('dataUpdated', newModels => {
+      //   members = newModels;
+      // });
+
+      // liveCollection.on('dataError', error => {
+      //   console.error(error);
+      // });
+
+      // members = liveCollection.models;
+      // setChatMembers(members);
+   //  };
   }, [channelId]);
 
   const sendMessage = (text) => {
@@ -42,6 +75,7 @@ const Chat = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size, clos
       channelId,
       text,
     });
+    trackChatEvent(channel, chatMembers, text);
   };
 
   return (

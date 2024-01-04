@@ -25,13 +25,27 @@ export const Avatar = styled(UserAvatar)`
 export const Title = styled.div`
   width: 135px;
   ${({ theme }) => theme.typography.bodyBold};
-  line-height: 20px;
   text-align: left;
   color: #000;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   margin-left: 8px;
+  ${({ titleLines }) =>
+    titleLines < 3
+      ? `
+    white-space: nowrap;
+    line-height: 20px;
+`
+      : `
+    font-size: 12px;
+    line-hight: 17px;
+    margin-top: -3px;
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+`}
 `;
 
 export const UnreadCountNumber = styled.div`

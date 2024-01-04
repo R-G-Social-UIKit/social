@@ -15,7 +15,8 @@ import { Selector, UserSelectorInput } from './styles';
 const UserSelector = ({
   value: userIds = [],
   onChange = () => {},
-  onSelectedUsers = () => {},
+  onAddUser = () => {},
+  onRemoveUser = () => {},
   parentContainer = null,
   currentUserId,
 }) => {
@@ -23,7 +24,7 @@ const UserSelector = ({
   const [query, setQuery] = useState('');
   const [queriedUsers = []] = useUserQuery(query);
   const { formatMessage } = useIntl();
-  const { selectedUserData, setSelectedUserData } = useState([]);
+  const selectedUserData = [{name: 'placeholder'}];
 
   const options = queriedUsers
     .filter(
@@ -41,17 +42,18 @@ const UserSelector = ({
     avatar: (queriedUsers.find((user) => user.userId === userId) ?? {}).avatarCustomUrl,
   }));
 
-  useEffect(() => {
-    // console.log(
-    //   'queried users and Ids',
-    //   queriedUsers,
-    //   'user ids',
-    //   userIds,
-    //   'selected users',
-    //   selectedUsers,
-    // );
-    onSelectedUsers(selectedUsers);
-  }, [onSelectedUsers, queriedUsers, selectedUsers, userIds]);
+  const updateSelectedUsers = (newUser) => {
+    const newSelectedUser = {
+      name: (queriedUsers.find((user) => user.userId === newUser) ?? {}).displayName,
+      id: newUser,
+      avatar: (queriedUsers.find((user) => user.userId === newUser) ?? {}).avatarCustomUrl,
+    }
+    onAddUser(newSelectedUser);
+  }
+
+  const removeSelectedUser = (oldUser) => {
+    onRemoveUser(oldUser);
+  }
 
   const close = () => {
     setIsOpen(false);
@@ -76,7 +78,14 @@ const UserSelector = ({
     return (
       <Selector {...props}>
         {selected.map(({ value: userId }) => (
-          <UserChip key={userId} userId={userId} onRemove={() => remove(userId, onChange)} />
+          <UserChip
+            key={userId}
+            userId={userId}
+            onRemove={() => {
+              remove(userId, onChange);
+              removeSelectedUser(userId);
+            }}
+          />
         ))}
         <UserSelectorInput
           ref={inputRef}
@@ -104,6 +113,7 @@ const UserSelector = ({
       multiple
       onSelect={({ value }) => {
         onChange([...userIds, value]);
+        updateSelectedUsers(value);
         inputElement.focus();
         // clear input on select item
         setQuery('');
@@ -117,6 +127,7 @@ UserSelector.propTypes = {
   parentContainer: PropTypes.element,
   currentUserId: PropTypes.string,
   onChange: PropTypes.func,
+  onSelectedUsers: PropTypes.func,
 };
 
 export default memo(withSDK(customizableComponent('UserSelector', UserSelector)));

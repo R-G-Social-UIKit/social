@@ -18,6 +18,7 @@ const ChatApplication = ({
   onChannelSelect,
   onAddNewChannel,
   onEditChatMember,
+  trackChatEvent = (param, text) => {console.log('chat event via app', text)},
 }) => {
   const { formatMessage } = useIntl();
   const [currentChannelData, setCurrentChannelData] = useState(null);
@@ -30,9 +31,10 @@ const ChatApplication = ({
   const openChatModal = () => setChatModalOpened(true);
 
   const handleChannelSelect = (newChannelData) => {
+    console.log('handle channel select', newChannelData);
     if (currentChannelData?.channelId === newChannelData?.channelId) return;
     hideChatDetails();
-    onChannelSelect(newChannelData);
+    // onChannelSelect(newChannelData);
     setCurrentChannelData(newChannelData);
   };
 
@@ -74,6 +76,7 @@ const ChatApplication = ({
           channelId={currentChannelData.channelId}
           shouldShowChatDetails={shouldShowChatDetails}
           onChatDetailsClick={showChatDetails}
+          trackChatEvent={trackChatEvent}
         />
       )}
       {/* List the chats here... */}

@@ -20,6 +20,7 @@ const RecentChatOnly = ({
   onAddNewChannel,
   onEditChatMember,
   setUnreadChats = () => {},
+  trackChatEvent = (param, text) => {alert(text)},
 }) => {
   const { formatMessage } = useIntl();
   const [currentChannelData, setCurrentChannelData] = useState(null);
@@ -82,6 +83,7 @@ const RecentChatOnly = ({
             shouldShowChatDetails={shouldShowChatDetails}
             closeChat={closeChat}
             onChatDetailsClick={showChatDetails}
+            trackChatEvent={trackChatEvent}
           />
         </div>
       )}

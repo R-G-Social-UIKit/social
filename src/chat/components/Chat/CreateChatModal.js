@@ -10,11 +10,11 @@ import { useSDK } from '~/core/hocs/withSDK';
 
 const CreateChatModal = ({ onClose, listOfChats, user }) => {
   const { formatMessage } = useIntl();
+  const { currentUserId, client } = useSDK();
 
-  const handleSubmit = async (data, autoName) => {
-    console.log('create chat with:', { ...data, autoName });
-    const { currentUserId, client } = useSDK();
-    await promisify(ChannelRepository.createChannel(data));
+  const handleSubmit = async (data, memberList) => {
+    const newChat = { ...data, metadata: { createdBy: currentUserId, memberList } };
+    await promisify(ChannelRepository.createChannel(newChat));
     onClose();
   };
 

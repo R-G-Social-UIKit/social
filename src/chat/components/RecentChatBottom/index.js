@@ -40,7 +40,7 @@ const RecentChatBottom = ({
   return (
     <RecentContainerSmall
       onClick={() => setShowFull((prev) => !prev)}
-      style={showFull ? { height: '100%' } : {}}
+      style={showFull ? { height: '100%', 'max-height': 'calc(100vh - 78px)' } : {}}
     >
       <RecentHeader>
         <RecentHeaderLabel>

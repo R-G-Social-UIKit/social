@@ -12,4 +12,5 @@ export const MessageListContainer = styled.div`
   display: flex;
   flex-direction: column-reverse;
   padding: 8px 20px;
+  max-height: calc(100vh - 200px);
 `;

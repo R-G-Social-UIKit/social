@@ -14,12 +14,21 @@ import {
   InfiniteScrollContainer,
 } from './styles';
 
-const RecentChat = ({ onChannelSelect, onAddNewChannelClick, selectedChannelId }) => {
+const RecentChat = ({
+  onChannelSelect = () => {
+    console.log('default channel select');
+  },
+  onAddNewChannelClick,
+  selectedChannelId,
+}) => {
   const [channels, hasMore, loadMore] = useChannelsList();
 
   useEffect(() => {
+    console.log('set chat', channels[0]);
     if (!selectedChannelId && channels && channels.length > 0) {
-      onChannelSelect(channels[0])
+      console.log('calling on channel select', onChannelSelect);
+      onChannelSelect(channels[0]);
+      console.log('called on channel select')
     }
   }, [channels, selectedChannelId]);
 

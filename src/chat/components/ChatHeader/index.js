@@ -22,6 +22,7 @@ import {
 const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size, closeChat }) => {
   const channel = useLiveObject(() => ChannelRepository.getChannel(channelId), [channelId]);
   const { chatName, chatAvatar } = useChatInfo({ channel });
+  console.log('chat header')
 
   const onClose = () => {
     if (closeChat) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
 import customizableComponent from '~/core/hocs/customization';
 import { backgroundImage as userBackgroundImage } from '~/icons/User';
@@ -53,8 +53,31 @@ const ChatItem = ({ channel, isSelected, onSelect }) => {
 
   const handleChatItemClick = (e) => {
     e.stopPropagation();
+    console.log('handle chat item click', onSelect);
     onSelect({ channelId: channel.channelId, channelType: channel.type });
   };
+
+  const getChatName = () => {
+    let name = chatName;
+    console.log('channel info', channel);
+    if (channel.metadata && channel.metadata.memberList) {
+      name = '';
+      channel.metadata.memberList.forEach((member, index) => {
+        name = `${name}${member.name}${index < channel.memberCount - 1 ? ',' : ''}`;
+      });
+    }
+    return name;
+  }
+
+  const getChatAvatar = () => {
+    let avatar = chatAvatar;
+    if (channel.metadata && channel.metadata.memberList && channel.memberCount === 2) {
+      channel.metadata.memberList.forEach((member) => {
+        avatar = member.avatar;
+      })
+    }
+    return avatar;
+  }
 
   const normalizedUnreadCount = getNormalizedUnreadCount(channel.unreadCount);
 
@@ -67,10 +90,10 @@ const ChatItem = ({ channel, isSelected, onSelect }) => {
     >
       <ChatItemLeft>
         <Avatar
-          avatarUrl={chatAvatar}
+          avatarUrl={getChatAvatar()}
           defaultImage={channel.memberCount > 2 ? communityBackgroundImage : userBackgroundImage}
         />
-        <Title>{chatName}</Title>
+        <Title titleLines={channel.memberCount}>{getChatName()}</Title>
       </ChatItemLeft>
       {normalizedUnreadCount && (
         <>

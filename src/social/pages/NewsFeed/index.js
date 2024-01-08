@@ -17,7 +17,7 @@ const NewsFeed = (props) => {
 
   const onPostEvent = (post) => {
     if (trackSocialEvent) {
-      trackSocialEvent(post);
+      trackSocialEvent({ type: 'post', ...post });
     } else {
       console.log( 'error: cannot do track post event from newsfeed');
     }

@@ -203,6 +203,7 @@ const PostCreatorBar = ({
     const post = await createPost(createPostParams);
 
     trackSocialEvent({
+      type: 'post',
       currentUserId,
       ...createPostParams,
       ...model,

@@ -18,7 +18,7 @@ const ChatApplication = ({
   onChannelSelect,
   onAddNewChannel,
   onEditChatMember,
-  trackChatEvent = (param, text) => {console.log('chat event via app', text)},
+  trackSocialEvent = () => {},
 }) => {
   const { formatMessage } = useIntl();
   const [currentChannelData, setCurrentChannelData] = useState(null);
@@ -31,7 +31,7 @@ const ChatApplication = ({
   const openChatModal = () => setChatModalOpened(true);
 
   const handleChannelSelect = (newChannelData) => {
-    console.log('handle channel select', newChannelData);
+    // console.log('handle channel select', newChannelData);
     if (currentChannelData?.channelId === newChannelData?.channelId) return;
     hideChatDetails();
     // onChannelSelect(newChannelData);
@@ -54,6 +54,12 @@ const ChatApplication = ({
     setCurrentChannelData(null);
   };
 
+  const onFoundExistingChannel = (channelId) => {
+    setChatModalOpened(false);
+    handleChannelSelect({ channelId, channelType: ChannelType.Standard });
+    // setCurrentChannelData(null);
+  };
+
   useEffect(() => {
     if (!defaultChannelId) return;
     handleChannelSelect({ channelId: defaultChannelId, channelType: ChannelType.Standard });
@@ -74,9 +80,10 @@ const ChatApplication = ({
       {currentChannelData && (
         <Chat
           channelId={currentChannelData.channelId}
+          channel={currentChannelData}
           shouldShowChatDetails={shouldShowChatDetails}
+          trackChatEvent={trackSocialEvent}
           onChatDetailsClick={showChatDetails}
-          trackChatEvent={trackChatEvent}
         />
       )}
       {/* List the chats here... */}
@@ -89,7 +96,12 @@ const ChatApplication = ({
           onClose={hideChatDetails}
         />
       )}
-      {isChatModalOpened && <CreateChatModal onClose={() => setChatModalOpened(false)} />}
+      {isChatModalOpened && (
+        <CreateChatModal
+          onClose={() => setChatModalOpened(false)}
+          onFoundExistingChannel={onFoundExistingChannel}
+        />
+      )}
     </ApplicationContainer>
   );
 };
@@ -97,6 +109,7 @@ const ChatApplication = ({
 ChatApplication.propTypes = {
   membershipFilter: PropTypes.oneOf(Object.values(ChannelMembership)),
   defaultChannelId: PropTypes.string,
+  trackSocialEvent: PropTypes.func,
   onMemberSelect: PropTypes.func,
   onChannelSelect: PropTypes.func,
   onAddNewChannel: PropTypes.func,
@@ -106,6 +119,7 @@ ChatApplication.propTypes = {
 ChatApplication.defaultProps = {
   membershipFilter: ChannelMembership.None,
   defaultChannelId: null,
+  trackSocialEvent: () => {},
   onMemberSelect: () => {},
   onChannelSelect: () => {},
   onAddNewChannel: () => {},

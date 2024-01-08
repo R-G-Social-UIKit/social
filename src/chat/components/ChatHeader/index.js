@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ChannelRepository } from '@amityco/js-sdk';
+import { useSDK } from '~/core/hocs/withSDK';
 
 import UserAvatar from '~/chat/components/UserAvatar';
 import customizableComponent from '~/core/hocs/customization';
@@ -22,7 +23,37 @@ import {
 const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size, closeChat }) => {
   const channel = useLiveObject(() => ChannelRepository.getChannel(channelId), [channelId]);
   const { chatName, chatAvatar } = useChatInfo({ channel });
-  console.log('chat header')
+  const { currentUserId } = useSDK();
+
+  const getChatName = () => {
+    let name = chatName;
+    if (channel.metadata && channel.metadata.memberList) {
+      name = '';
+      const users = [];
+      channel.metadata.memberList.forEach((member, index) => {
+        if (member.id !== currentUserId) {
+          users.push(member.name);
+        }
+      });
+      if (users.length > 0) {
+        name = users.join(', ');
+      }
+    }
+    return name;
+  }
+
+  const getChatAvatar = () => {
+    let avatar = chatAvatar;
+    if (channel.metadata && channel.metadata.memberList && channel.memberCount === 2) {
+      channel.metadata.memberList.forEach((member) => {
+        if (member.id !== currentUserId) {
+          avatar = member.avatar;
+        }
+      })
+    }
+    return avatar;
+  }
+
 
   const onClose = () => {
     if (closeChat) {
@@ -34,12 +65,12 @@ const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size
     <ChatHeaderContainer data-qa-anchor="chat-header" size={size}>
       <Channel size={size}>
         <UserAvatar
-          avatarUrl={chatAvatar}
+          avatarUrl={getChatAvatar()}
           defaultImage={channel.memberCount > 2 ? communityBackgroundImage : userBackgroundImage}
         />
         <ChannelInfo data-qa-anchor="chat-header-channel-info">
           <ChannelName data-qa-anchor="chat-header-channel-info-channel-name">
-            {chatName}
+            {getChatName()}
           </ChannelName>
           <MemberCount data-qa-anchor="chat-header-channel-info-member-count">
             <FormattedMessage id="chat.members.count" values={{ count: channel.memberCount }} />

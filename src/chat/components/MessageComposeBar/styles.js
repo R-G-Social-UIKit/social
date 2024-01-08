@@ -5,7 +5,7 @@ export const SendMessageIcon = styled(SendMessage).attrs({ width: 28, height: 28
   cursor: pointer;
   margin-left: 12px;
   margin-right: 8px;
-  color: #0f86fe;
+  color: #479acc;
 `;
 
 export const ImageMessageIcon = styled(ImageAttachment).attrs({ width: 18, height: 18 })`

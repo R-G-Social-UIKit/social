@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useForm, Controller } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -37,9 +37,8 @@ const FormBlock = ({ children }) => (
 const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) => {
   const { formatMessage } = useIntl();
 
-  const [autoName, setAutoName] = useState(undefined);
-  const [autoAvatar, setAutoAvatar] = useState(undefined);
-
+  const [chatMemberList, setMemberList] = useState([]);
+  
   const defaultValues = {
     channelId: '',
     type: ChannelType.Live,
@@ -71,40 +70,37 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
       tags: data?.tags,
     };
 
-    await onSubmit(payload, autoName);
+    await onSubmit(payload, chatMemberList);
   });
 
   const disabled = !isDirty || userIds.length === 0 || submitting;
 
   const [formBodyRef, formBodyElement] = useElement();
 
-  const onSelectedUsers = (selectedUsers) => {
-    let name = '';
-    let avatar;
-    if (selectedUsers && selectedUsers.length > 0) {
-      if (selectedUsers.length > 1) {
-        // then a group
-        selectedUsers.forEach((user) => {
-          if (user.name) {
-            name = `${name ? '+' : ''}${user.name}`;
-            avatar = avatar || user.avatar; // just use the first avatar;
-          }
-        });
-      } else {
-        name = selectedUsers[0].name || '';
-        avatar = selectedUsers[0].avatar;
-      }
-    }
-    console.log('set auto name', name);
-    setAutoName(name || 'name not available');
-    setAutoAvatar(avatar);
+  const onAddUser = (newUser) => {
+    setMemberList([...chatMemberList, newUser]);
   };
+
+  const onRemoveUser = (oldUserId) => {
+    const newMemberList = chatMemberList;
+    let oldUserIndex = -1;
+    newMemberList.forEach((member, index) => {
+      if( member.id === oldUserId) {
+        oldUserIndex = index;
+      }
+    });
+    if (oldUserIndex >= 0) {
+      newMemberList.splice(oldUserIndex, 1);
+      setMemberList(newMemberList);
+    }
+  };
+
   return (
     <ChatComposerContainer>
       <Form className={className} onSubmit={handleSubmit(validateAndSubmit)}>
         <FormBody ref={formBodyRef}>
           <FormBlock>
-            <Field>
+            {/* <Field>
               <LabelWrapper>
                 <LabelContainer>
                   <Label>
@@ -118,7 +114,7 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
                 data-qa-anchor="chat-composer-channel-id-input"
               />
               <ErrorMessage errors={errors} name="channelId" />
-            </Field>
+            </Field> */}
 
             {/* type will be default... don't allow users to change it or see it */}
             {/* <Field>
@@ -159,7 +155,7 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
               <ErrorMessage errors={errors} name="displayName" />
             </Field> */}
 
-            <Field>
+            {/* <Field>
               <Controller
                 name="avatarFileId"
                 control={control}
@@ -168,7 +164,7 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
                 )}
                 defaultValue={null}
               />
-            </Field>
+            </Field> */}
 
             <Field error={errors.userIds}>
               <Label name="userIds" className="required">
@@ -180,8 +176,9 @@ const ChatComposer = ({ className, onCancel = () => {}, onSubmit = () => {} }) =
                   <UserSelector
                     parentContainer={formBodyElement}
                     {...rest}
-                    onSelectedUsers={onSelectedUsers}
                     data-qa-anchor="chat-composer-select-user-input"
+                    onAddUser={onAddUser}
+                    onRemoveUser={onRemoveUser}
                   />
                 )}
                 control={control}

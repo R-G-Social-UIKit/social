@@ -20,6 +20,7 @@ const RecentChatOnly = ({
   onAddNewChannel,
   onEditChatMember,
   setUnreadChats = () => {},
+  trackSocialEvent = () => {}
 }) => {
   const { formatMessage } = useIntl();
   const [currentChannelData, setCurrentChannelData] = useState(null);
@@ -64,6 +65,12 @@ const RecentChatOnly = ({
     setCurrentChannelData(null);
   };
 
+  const onFoundExistingChannel = (channelId) => {
+    closeChat();
+    handleChannelSelect({ channelId, channelType: ChannelType.Standard });
+    setChatModalOpened(false);
+  }
+
   return (
     <ApplicationContainerCommentOnly>
       {currentChannelData && (
@@ -76,11 +83,13 @@ const RecentChatOnly = ({
             marginRight: 8
           }}
         >
-          <Chat
+          <Chat 
             size="small"
             channelId={currentChannelData.channelId}
+            channel={currentChannelData}
             shouldShowChatDetails={shouldShowChatDetails}
             closeChat={closeChat}
+            trackChatEvent={trackSocialEvent}
             onChatDetailsClick={showChatDetails}
           />
         </div>
@@ -104,7 +113,12 @@ const RecentChatOnly = ({
           onAddNewChannel();
         }}
       />
-      {isChatModalOpened && <CreateChatModal onClose={() => setChatModalOpened(false)} />}
+      {isChatModalOpened && (
+        <CreateChatModal
+          onClose={() => setChatModalOpened(false)}
+          onFoundExistingChannel={onFoundExistingChannel}
+        />
+      )}
     </ApplicationContainerCommentOnly>
   );
 };

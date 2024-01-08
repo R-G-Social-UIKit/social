@@ -58,6 +58,7 @@ const CreateChatModal = ({ onClose, onFoundExistingChannel }) => {
       const newChat = { ...data, metadata: { createdBy: currentUserId, memberList } };
       await promisify(ChannelRepository.createChannel(newChat));
       onClose();
+      return;
     }
 
     // well, there are some... let's look at the membership

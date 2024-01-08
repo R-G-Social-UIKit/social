@@ -1,6 +1,6 @@
 {
   "name": "@rg-npmjs-dev/rg-amity-social-ui",
-  "version": "2.15.05",
+  "version": "2.15.06",
   "engines": {
     "node": ">=16",
     "npm": ">=7"

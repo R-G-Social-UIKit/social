@@ -16,7 +16,6 @@ const CreateChatModal = ({ onClose, onFoundExistingChannel }) => {
   const { currentUserId, client } = useSDK();
   const { user } = useUser(currentUserId);
   const [channels, hasMore, loadMore] = useChannelsList();
-  // const [members, hasMoreMembers = hasMore, loadMoreMembers = loadMore] = useChannelMembers();
 
   useEffect(() => {
     // if (channels && channels.length > 0 && channels[0].metadata.lastPostedBy === currentUserId) {

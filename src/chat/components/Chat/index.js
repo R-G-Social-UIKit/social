@@ -72,7 +72,7 @@ const Chat = ({
   };
 
   return (
-    <ChannelContainer>
+    <ChannelContainer size={size}>
       <ChatHeader
         channelId={channelId}
         shouldShowChatDetails={shouldShowChatDetails}

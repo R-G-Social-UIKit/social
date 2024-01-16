@@ -14,6 +14,7 @@ import CreateChatModal from '~/chat/components/Chat/CreateChatModal';
 const ChatApplication = ({
   membershipFilter,
   defaultChannelId,
+  isMobile,
   onMemberSelect,
   onChannelSelect,
   onAddNewChannel,
@@ -60,6 +61,10 @@ const ChatApplication = ({
     // setCurrentChannelData(null);
   };
 
+  const closeChat = () => {
+    setCurrentChannelData(null);
+  };
+
   useEffect(() => {
     if (!defaultChannelId) return;
     handleChannelSelect({ channelId: defaultChannelId, channelType: ChannelType.Standard });
@@ -67,20 +72,25 @@ const ChatApplication = ({
   }, [defaultChannelId]);
 
   return (
-    <ApplicationContainer>
-      <RecentChat
-        selectedChannelId={currentChannelData?.channelId}
-        membershipFilter={membershipFilter}
-        onChannelSelect={handleChannelSelect}
-        onAddNewChannelClick={() => {
-          openChatModal();
-          onAddNewChannel();
-        }}
-      />
+    <ApplicationContainer isMobile={isMobile}>
+      {(!isMobile || !currentChannelData) && (
+        <RecentChat
+          selectedChannelId={currentChannelData?.channelId}
+          membershipFilter={membershipFilter}
+          isMobile={isMobile}
+          onChannelSelect={handleChannelSelect}
+          onAddNewChannelClick={() => {
+            openChatModal();
+            onAddNewChannel();
+          }}
+        />
+      )}
       {currentChannelData && (
         <Chat
           channelId={currentChannelData.channelId}
           channel={currentChannelData}
+          size={isMobile ? 'mobile' : ''}
+          closeChat={closeChat}
           shouldShowChatDetails={shouldShowChatDetails}
           trackChatEvent={trackSocialEvent}
           onChatDetailsClick={showChatDetails}
@@ -90,6 +100,7 @@ const ChatApplication = ({
       {shouldShowChatDetails && currentChannelData && (
         <ChatDetails
           channelId={currentChannelData.channelId}
+          isMobile={isMobile}
           leaveChat={leaveChat}
           onEditChatMemberClick={onEditChatMember}
           onMemberSelect={onMemberSelect}

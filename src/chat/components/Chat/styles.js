@@ -9,6 +9,14 @@ export const ChannelContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  ${({ size }) =>
+    size === 'mobile'
+      ? `
+    width: 100vw;
+`
+      : `
+    width: unset;
+`}
 `;
 
 export const FormBlockBody = styled.div`
@@ -44,6 +52,8 @@ export const Label = styled.label`
       }
     }
   `}
+  color: black;
+  font-weight: 400;
 `;
 
 export const LabelContainer = styled.div`

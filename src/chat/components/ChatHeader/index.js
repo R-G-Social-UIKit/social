@@ -77,8 +77,10 @@ const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size
           </MemberCount>
         </ChannelInfo>
       </Channel>
-      {!shouldShowChatDetails && size !== 'small' && <DetailsIcon onClick={onChatDetailsClick} />}
-      {size === 'small' && <HeaderCloseIcon onClick={onClose} />}
+      {!shouldShowChatDetails && size !== 'small' && size !== 'mobile' && (
+        <DetailsIcon onClick={onChatDetailsClick} />
+      )}
+      {(size === 'small' || size === 'mobile') && <HeaderCloseIcon onClick={onClose} />}
     </ChatHeaderContainer>
   );
 };

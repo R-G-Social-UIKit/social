@@ -14,17 +14,23 @@ import {
   InfiniteScrollContainer,
 } from './styles';
 
-const RecentChat = ({ onChannelSelect = () => {}, onAddNewChannelClick, selectedChannelId }) => {
+const RecentChat = ({
+  isMobile,
+  onChannelSelect = () => {},
+  onAddNewChannelClick,
+  selectedChannelId,
+  size = '',
+}) => {
   const [channels, hasMore, loadMore] = useChannelsList();
 
   useEffect(() => {
-    if (!selectedChannelId && channels && channels.length > 0) {
+    if (!selectedChannelId && channels && channels.length > 0 && !isMobile) {
       onChannelSelect(channels[0]);
     }
   }, [channels, selectedChannelId]);
 
   return (
-    <RecentContainer>
+    <RecentContainer isMobile={isMobile}>
       <RecentHeader>
         <RecentHeaderLabel>
           <FormattedMessage id="chat.chats" />

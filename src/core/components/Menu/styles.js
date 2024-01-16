@@ -10,11 +10,12 @@ export const MenuItem = styled.div`
   align-items: center;
   padding: 8px 12px;
   cursor: pointer;
+  color: black;
 
   ${({ hover, theme }) => hover && `background: ${theme.palette.base.shade4};`}
-  ${({ active, theme }) => active && `color: ${theme.palette.primary.shade1};`}
+  ${({ active, theme }) => active && `color: 'green`}
   
   &:hover {
-    ${({ theme }) => `background: ${theme.palette.base.shade4};`}
+    ${({ theme }) => `background: ${theme.palette.base.shade1};`}
   }
 `;

@@ -345,7 +345,7 @@
   "chatComposer.label.channelId": "Chat Name",
   "chatComposer.label.displayName": "Display Name",
   "chatComposer.label.type": "Channel Type",
-  "chatComposer.addUsers": "In order to send new messages, you must first add Member(s) to Chat by adding their name(s) in the fox below.",
+  "chatComposer.addUsers": "In order to send new messages, you must first add Member(s) to Chat by adding their name(s) in the box below.",
   "chat_modal.title": "Create New Message",
   "chat_composer.placeholder.displayName": "Optional display name",
   "chat_composer.placeholder.channelId": "Optional chat name here..."

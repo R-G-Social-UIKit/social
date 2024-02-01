@@ -123,7 +123,6 @@ const PostCreatorBar = ({
         loadMoreMembers();
       } else {
         // dump the members
-        // console.log('*************************** use effect members: ', members);
       }
     }
   }, [membersCount, members, hasMoreMembers, loadMoreMembers]);
@@ -283,6 +282,7 @@ const PostCreatorBar = ({
         const liveCollection = UserRepository.queryUsers({ keyword });
         users = await promisify(liveCollection);
       }
+      users = users.filter((u) => !u.isGlobalBan);
 
       cb(formatMentionees(users));
     },

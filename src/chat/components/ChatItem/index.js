@@ -33,6 +33,7 @@ function getNormalizedUnreadCount(channelUnreadCount) {
 
 const ChatItem = ({ channel, isSelected, onSelect }) => {
   const { chatName, chatAvatar } = useChatInfo({ channel });
+  console.log( channel, chatName, chatAvatar);
   const { currentUserId } = useSDK();
 
   const handleChatItemClick = (e) => {
@@ -55,11 +56,15 @@ const ChatItem = ({ channel, isSelected, onSelect }) => {
       }
     }
     return name;
-  }
+  };
 
   const getChatAvatar = () => {
     let avatar = chatAvatar;
-    if (channel.metadata && channel.metadata.memberList && channel.memberCount === 2) {
+    if (
+      channel.metadata &&
+      channel.metadata.memberList &&
+      channel.metadata.memberList.length === 2
+    ) {
       channel.metadata.memberList.forEach((member) => {
         if (member.id !== currentUserId) {
           avatar = member.avatar;

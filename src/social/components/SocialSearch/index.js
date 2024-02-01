@@ -23,7 +23,9 @@ const communityRenderer = (communities) => (communityName) => {
 
 const userRenderer = (users) => (userName) => {
   const { userId, isGlobalBan } = users.find((item) => item.displayName === userName) ?? {};
-
+  if (isGlobalBan) {
+    return null;
+  }
   return !!userId && <UserHeader userId={userId} isBanned={isGlobalBan} />;
 };
 

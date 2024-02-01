@@ -38,7 +38,7 @@ const RecentChatBottom = ({
     }
     if (!hasMore && channels && channels.length > 0) {
       let unread = 0;
-      console.log('show channels data: ', channels);
+      // console.log('show channels data: ', channels);
       channels.forEach(c => {
         unread += c.unreadCount;
       });

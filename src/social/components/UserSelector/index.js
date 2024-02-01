@@ -28,11 +28,11 @@ const UserSelector = ({
 
   const options = queriedUsers
     .filter(
-      ({ displayName, userId }) =>
-        displayName?.toLowerCase().includes(query.toLowerCase()) && userId !== currentUserId,
+      ({ displayName, userId, isGlobalBan }) =>
+        !isGlobalBan && displayName?.toLowerCase().includes(query.toLowerCase()) && userId !== currentUserId,
     )
     .map(({ displayName, userId }) => ({
-      name: displayName,
+      name: `test-${displayName}`,
       value: userId,
     }));
 

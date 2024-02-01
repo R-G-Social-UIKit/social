@@ -42,7 +42,7 @@ const ChatDetails = ({ channelId, onClose, leaveChat, onEditChatMemberClick, onM
         </TitleInfo>
       </ChatDetailsTitle>
 
-      {shouldShowMembers || isMobile ? (
+      {/* {shouldShowMembers || isMobile ? (
         <ChatDetailsMembers
           channelId={channelId}
           hideMembers={() => setShouldShowMembers(false)}
@@ -57,7 +57,7 @@ const ChatDetails = ({ channelId, onClose, leaveChat, onEditChatMemberClick, onM
           memberCount={channel.memberCount}
           showMembers={() => setShouldShowMembers(true)}
         />
-      )}
+      )} */}
     </ChatDetailsContainer>
   );
 };

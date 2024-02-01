@@ -36,6 +36,9 @@ const SocialMentionItem = ({ id, focused, isLastItem, loadMore = () => {}, rootE
     }
   }, []);
 
+  if (user.isGlobalBan) {
+    return (<></>)
+  }
   if (isLastItem) {
     return (
       <Item

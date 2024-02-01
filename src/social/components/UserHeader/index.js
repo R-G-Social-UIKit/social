@@ -11,7 +11,7 @@ const UserHeader = ({ userId, children, onClick, isBanned }) => {
   return (
     <UIUserHeader
       userId={user.userId}
-      displayName={user.displayName}
+      displayName={`${user.displayName}`}
       avatarFileUrl={file.fileUrl}
       isBanned={isBanned || user.isGlobalBan}
       onClick={onClick}

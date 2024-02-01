@@ -44,7 +44,7 @@ const ChatHeader = ({ channelId, onChatDetailsClick, shouldShowChatDetails, size
 
   const getChatAvatar = () => {
     let avatar = chatAvatar;
-    if (channel.metadata && channel.metadata.memberList && channel.memberCount === 2) {
+    if (channel.metadata && channel.metadata.memberList && channel.metadata.memberList.length === 2) {
       channel.metadata.memberList.forEach((member) => {
         if (member.id !== currentUserId) {
           avatar = member.avatar;

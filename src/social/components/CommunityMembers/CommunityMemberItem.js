@@ -56,6 +56,10 @@ const CommunityMemberItem = ({
   const memberHasModeratorRole = isModerator(roles);
   const isCurrentUser = currentUserId === userId;
 
+  if (isGlobalBan) {
+    return null;
+  }
+
   return (
     <CommunityMemberContainer data-qa-anchor="community-member-item">
       <MemberInfo>

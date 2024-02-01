@@ -177,6 +177,11 @@ const InputText = forwardRef(
 
     const classNames = cx(className, { disabled, invalid });
 
+    const testData = async(p1, p2) => {
+      const q = await queryMentionees(p1, p2);
+      return q;
+    };
+
     const props = {
       id,
       name,
@@ -207,10 +212,10 @@ const InputText = forwardRef(
           >
             <Mention
               trigger="@"
-              data={queryMentionees}
+              data={testData}
               style={mentionStyle}
-              renderSuggestion={(...args) =>
-                renderMentionItem(...args, queryMentionees?.length, mentionRef, loadMoreMentionees)
+              renderSuggestion={(...args) => 
+              renderMentionItem(...args, queryMentionees?.length, mentionRef, loadMoreMentionees)
               }
               displayTransform={displayTransform}
               appendSpaceOnAdd

@@ -206,7 +206,7 @@ const Comment = ({ readonly = false, commentId, currentUserId, userRoles }) => {
       handleEdit={handleEdit}
       handleDelete={deleteComment}
       isEditing={isEditing}
-      queryMentionees={queryMentionees.filter((q) => !q.isGlobalBan)}
+      queryMentionees={queryMentionees}
       isReported={isFlaggedByMe}
       isReplyComment={isReplyComment}
       onClickReply={onClickReply}

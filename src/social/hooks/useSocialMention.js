@@ -82,6 +82,8 @@ const useSocialMention = ({ targetId, targetType, remoteText, remoteMarkup }) =>
         users = await promisify(liveCollection);
       }
 
+      users = users.filter((user) => !user.isGlobalBan);
+
       cb(formatMentionees(users));
     },
     [isCommunityFeed, isPublic, targetId],
